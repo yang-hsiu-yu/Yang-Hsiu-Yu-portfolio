@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>【楊琇伃】｜服務顧問師應徵作品集</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F2F5F7;--surface:#fff;--ink:#18252F;--muted:#556572;--line:#D5DDE3;--accent:#0E6B6B;--soft:#DCEFEF;--mark:#B9770E;
+--font:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}
+@media(prefers-color-scheme:dark){:root{--bg:#10181E;--surface:#18232B;--ink:#E7EDF1;--muted:#9AAAB5;--line:#2B3A45;--accent:#58C4C4;--soft:#1A3338;--mark:#E0A84A}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.75 var(--font)}
+button{font:inherit;color:inherit;cursor:pointer}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--mark);outline-offset:2px}
+.app{display:flex;min-height:100vh}
+
+/* 左側個人資料（首頁為滿版左半，進入作品後縮為側欄，可收合） */
+.profile{flex:0 0 300px;position:sticky;top:0;height:100vh;overflow:hidden;border-right:1px solid var(--line);transition:flex-basis .55s cubic-bezier(.4,0,.2,1)}
+.home .profile{flex-basis:50%}
+.collapsed .profile{flex-basis:48px}
+.pin{height:100%;overflow:auto;padding:44px 26px 28px}
+.collapsed .pin{display:none}
+.toggle{position:absolute;top:8px;right:8px;z-index:2;border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:0 10px;font-size:13px;color:var(--muted)}
+.collapsed .toggle{inset:0;width:100%;height:100%;border:0;border-radius:0;background:var(--soft);color:var(--accent);writing-mode:vertical-rl;font-size:15px;font-weight:700}
+.home .toggle{display:none}
+.photo,.photo-fallback{width:132px;height:132px;border-radius:50%;object-fit:cover;margin-bottom:16px;display:block}
+.photo-fallback{background:var(--soft);color:var(--accent);display:grid;place-items:center;font-size:44px;font-weight:900}
+.profile h1{font-size:26px;margin:0;line-height:1.3}
+.role{color:var(--accent);font-weight:700;margin:2px 0 10px}
+.tagline{font-size:clamp(20px,2.2vw,28px);font-weight:900;line-height:1.4;margin:0 0 12px}
+.app:not(.home) .tagline,.app:not(.home) .go,.app.home .back{display:none}
+.about{color:var(--muted);font-size:15px;margin:0 0 20px}
+.profile h2{font-size:14px;color:var(--muted);margin:0 0 8px;font-weight:500}
+.skill{display:block;width:100%;text-align:left;background:none;border:0;border-left:3px solid var(--line);padding:6px 12px;margin-bottom:6px}
+.skill b{display:block;font-size:15px}
+.skill span{display:block;font-size:13.5px;color:var(--muted);line-height:1.5}
+.skill:hover,.skill[aria-pressed=true]{border-left-color:var(--mark);background:var(--soft)}
+.contact{margin-top:20px;font-size:14.5px;display:grid;gap:4px}
+.btn{display:inline-block;margin-top:14px;padding:8px 18px;border-radius:6px;background:var(--accent);color:#fff;text-decoration:none;font-weight:500;border:0}
+.go{font-size:18px;padding:12px 28px;margin:4px 0 22px}
+.btn.alt{background:none;color:var(--accent);border:1.5px solid var(--accent);margin-left:8px}
+@media(prefers-color-scheme:dark){.btn{color:#0b1418}.btn.alt{color:var(--accent)}}
+.back{background:none;border:0;color:var(--accent);padding:0;margin:0 0 14px;font-size:14px}
+.home .pin{display:flex;flex-direction:column;justify-content:center;padding:48px clamp(24px,6vw,96px)}
+.home .photo,.home .photo-fallback{width:180px;height:180px}
+.home .profile h1{font-size:clamp(32px,4vw,52px)}
+.home #skills{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}
+
+/* 右側 */
+.right{flex:1;min-width:0}
+.right>:not([hidden]){animation:in .6s ease both}
+@keyframes in{from{opacity:0;transform:translateX(40px)}}
+.bio-col{padding:56px clamp(24px,6vw,96px);max-width:820px}
+.bio-col h2,.dbox h2{font-size:28px;margin:0 0 16px}
+.bio-text p{margin:0 0 1em;font-size:17px}
+.works{padding:24px 40px 64px}
+.nav{display:flex;gap:6px;align-items:center;border-bottom:1px solid var(--line);margin-bottom:20px}
+.nav button{background:none;border:0;border-bottom:3px solid transparent;padding:8px 16px;font-weight:700;color:var(--muted)}
+.nav button[aria-selected=true]{color:var(--accent);border-bottom-color:var(--accent)}
+.nav .bio-btn{margin-left:auto;font-weight:500;text-decoration:underline;text-underline-offset:4px;color:var(--accent)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.tab{background:none;border:1px solid var(--line);border-radius:99px;padding:4px 16px}
+.tab[aria-selected=true]{background:var(--accent);border-color:var(--accent);color:#fff}
+@media(prefers-color-scheme:dark){.tab[aria-selected=true]{color:#0b1418}}
+.filter{font-size:14px;color:var(--muted);margin:-4px 0 14px}
+.filter button{border:0;background:none;color:var(--accent);text-decoration:underline}
+.split{display:grid;grid-template-columns:270px minmax(0,1fr);gap:32px;align-items:start}
+.list{list-style:none;margin:0;padding:0;position:sticky;top:16px;max-height:calc(100vh - 32px);overflow:auto}
+.item{display:block;width:100%;text-align:left;background:none;border:0;border-left:3px solid var(--line);padding:8px 12px}
+.item small{display:block;color:var(--muted);font-size:13px}
+.item:hover{background:var(--soft)}
+.item[aria-current=true]{border-left-color:var(--accent);background:var(--surface);font-weight:700}
+
+.head h3{font-size:26px;margin:0}
+.head small{color:var(--muted)}
+.meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0 20px}
+.chip{font-size:13px;padding:1px 10px;border-radius:99px;background:var(--soft);color:var(--accent)}
+.chip.award{background:var(--mark);color:#10181E;font-weight:700}
+.jump{border:0;background:none;color:var(--accent);text-decoration:underline;font-size:14px}
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px 32px;margin-bottom:8px}
+.fields h4{margin:0 0 2px;font-size:14px;color:var(--muted);font-weight:500}
+.fields p{margin:0;white-space:pre-line}
+.fields .gain{border-left:3px solid var(--mark);padding-left:14px}
+.links a{margin-right:18px}
+.vh{margin:32px 0 10px;display:flex;gap:12px;align-items:baseline;border-top:1px solid var(--line);padding-top:20px}
+.vh span{color:var(--muted);font-size:14px}
+/* 圖片框依實際圖片比例調整 */
+.viewer{width:fit-content;max-width:100%;min-width:min(100%,520px);background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.stage{background:var(--soft);display:flex;justify-content:center}
+.stage img{display:block;width:auto;height:auto;max-width:100%;max-height:80vh}
+.ph{width:100%;aspect-ratio:16/9;display:grid;place-content:center;text-align:center;color:var(--muted);font-size:15px}
+.ph b{display:block;font-size:40px;color:var(--accent)}
+.bar{display:flex;align-items:center;gap:12px;padding:8px 12px;border-top:1px solid var(--line)}
+.bar button{border:1px solid var(--line);background:none;border-radius:6px;padding:2px 14px}
+.bar button:disabled{opacity:.3;cursor:default}
+.dots{flex:1;display:flex;gap:5px;flex-wrap:wrap}
+.dots i{width:22px;height:4px;border-radius:2px;background:var(--line)}
+.dots i.on{background:var(--mark)}
+.count{font-size:14px;color:var(--muted);min-width:4em;text-align:right}
+
+/* Q&A */
+.qa{list-style:none;margin:0;padding:0;max-width:900px;border-top:1px solid var(--line)}
+.qa li{border-bottom:1px solid var(--line)}
+.qbtn{width:100%;text-align:left;background:none;border:0;padding:16px 4px;display:flex;gap:14px;font-weight:700;font-size:17px}
+.qbtn .n{color:var(--accent);min-width:2.2em}
+.qbtn::after{content:"＋";margin-left:auto;color:var(--muted)}
+.qbtn[aria-expanded=true]::after{content:"－"}
+.ans{display:grid;grid-template-rows:0fr;visibility:hidden;transition:grid-template-rows .3s,visibility .3s}
+.ans.open{grid-template-rows:1fr;visibility:visible}
+.ans>div{overflow:hidden}
+.ans p{margin:0;padding:0 8px 18px calc(2.2em + 18px);white-space:pre-line}
+
+/* 自傳彈窗 */
+dialog{border:0;border-radius:12px;padding:0;background:var(--surface);color:var(--ink);width:min(720px,92vw);max-height:86vh;overflow:auto}
+dialog::backdrop{background:rgba(10,20,26,.6)}
+.dbox{padding:28px 32px 32px}
+.dhead{display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--surface)}
+.x{border:0;background:none;font-size:26px;line-height:1;padding:4px 8px;color:var(--muted)}
+
+@media(max-width:1000px){
+ .app{flex-direction:column}
+ .profile,.home .profile,.collapsed .profile{flex:none;position:static;height:auto;border-right:0;border-bottom:1px solid var(--line)}
+ .pin{height:auto;overflow:visible}
+ .home .pin{padding:36px 24px}
+ .home #skills{grid-template-columns:1fr}
+ .collapsed .toggle{position:static;writing-mode:horizontal-tb;width:100%;height:44px}
+ .works{padding:20px}
+ .bio-col{padding:32px 24px}
+ .split{grid-template-columns:1fr}
+ .list{position:static;max-height:240px;border:1px solid var(--line);border-radius:8px}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="app home" id="app">
+  <aside class="profile">
+    <button class="toggle" id="toggle" data-toggle aria-expanded="true">‹ 收合</button>
+    <div class="pin">
+      <button class="back" data-home>← 回首頁</button>
+      <img class="photo" src="me.jpg" alt="【楊琇伃】的照片" onerror="this.outerHTML='<div class=photo-fallback>你</div>'">
+      <h1>【楊琇伃】</h1>
+      <p class="role">服務顧問師 應徵者</p>
+      <p class="about">國立聯合大學資訊管理學系116年畢業</p>
+      <button class="btn go" data-go>查看作品 →</button>
+      <h2>能力亮點（點選可看對應作品）</h2>
+      <div id="skills"></div>
+      <div class="contact">
+        <a href="mailto:U1233142@o365.nuu.edu.tw">U1233142@o365.nuu.edu.tw</a>
+        <span>0968-544685</span>
+      </div>
+    </div>
+  </aside>
+
+  <div class="right">
+    <section class="bio-col" id="homeBio">
+      <h2>自傳</h2>
+      <div class="bio-text" data-bio></div>
+    </section>
+
+    <main class="works" id="works" hidden>
+      <nav class="nav" aria-label="內容切換">
+        <button data-view="works" aria-selected="true">作品</button>
+        <button data-view="qa" aria-selected="false">Q&amp;A</button>
+        <button class="bio-btn" data-bio-open>自傳</button>
+      </nav>
+
+      <div id="viewWorks">
+        <div class="tabs" role="tablist" id="tabs"></div>
+        <div class="filter" id="filter" hidden></div>
+        <div class="split">
+          <ul class="list" id="list"></ul>
+          <article id="detail" aria-live="polite"></article>
+        </div>
+      </div>
+
+      <div id="viewQA" hidden>
+        <p style="color:var(--muted);margin:0 0 16px">點選問題查看回答。</p>
+        <ul class="qa" id="qaList"></ul>
+      </div>
+    </main>
+  </div>
+</div>
+
+<dialog id="bioDlg" aria-label="自傳">
+  <div class="dbox">
+    <div class="dhead"><h2>自傳</h2><button class="x" data-close aria-label="關閉">✕</button></div>
+    <div class="bio-text" data-bio></div>
+  </div>
+</dialog>
+
+<script>
+/* ===================== 只需編輯這一區 ===================== */
+const CATS = ["社團", "課堂成果", "校外發表"];
+
+const SKILLS = [
+  {id:"flow",  name:"流程分析",   desc:"【例：畫出現況與目標流程，找出重複與斷點】"},
+  {id:"data",  name:"資料與系統", desc:"【例：Excel、SQL 基礎、進銷存概念】"},
+  {id:"talk",  name:"溝通協調",   desc:"【例：訪談使用者、整合不同意見】"},
+  {id:"teach", name:"教學與文件", desc:"【例：操作手冊、教育訓練】"}
+];
+
+/* 圖片放法：works/作品id/1.jpg、2.jpg…（pages 填總頁數）。沒放圖時會顯示佔位頁。
+   欄位沒填的會自動隱藏。star:true 會顯示 ★ 精選。
+   各分類使用的欄位：
+   通用：kind(必修/選修) award(榮獲) year(可省略)
+   課堂成果：title(課程名稱) topic people purpose role hard ai gain reflect
+   社團　　：title(活動名稱) role action hard gain reflect
+   校外發表：title(競賽名稱) people role hard ai gain reflect */
+const WORKS = [
+  {"id": "club-114games", "cat": "社團", "star": true, "pages": 2, "skills": ["flow", "talk"], "title": "114年全國大專校院運動會", "role": "總務 – 一切經費相關事項，以及其餘行政流程\n工作人員 – 協助選手及教練", "action": "經費概算、比賽購買護具、保險投保、訂房處理、報名資料蒐集、追蹤選手訓練進度、安排選手的工作人員", "hard": "當時社長對人力資源管理的分工概念較不熟悉，認為與經費相關的工作都應由總務處理；而我當時也沒有立即提出疑問或協調分工，便接下這些工作。實際執行後才發現工作量超出預期，但我仍未及時尋求協助，最後在補助總金額較大的情況下出現疏漏，形成財務上的缺口。", "gain": "這次經驗讓我思考，未來擔任社長時應如何更清楚地分配幹部職責。職務名稱不應完全限定一個人的工作範圍，當工作量增加或出現臨時需求時，也應適時調度人力、互相支援。", "reflect": "我會更主動向社長說明工作負荷，並提出希望由哪些幹部協助，而不是等待他人察覺我的需求。社團當時較缺乏參與比賽的經驗，幹部對流程也可能不熟悉，因此容易產生混亂；這次經驗也促使社團在比賽後於組織章程新增補助上限等規定，避免類似問題再次發生。"},
+  {"id": "club-115games", "cat": "社團", "pages": 2, "skills": ["talk", "flow"], "title": "115年全國大專校院運動會", "role": "社長 – 分工推進事前流程，並處理活動當下的緊急狀況\n工作人員 – 協助選手及教練\n選手 – 比賽當天全力發揮", "action": "定期詢問分工後進度、場勘並回報現場狀況、注意場次與賽程的動態消息", "hard": "競賽為期將近一週，選手出場皆須有指導教練陪同。但教練可能因個人因素無法準時出席，或因不同選手的場次同時開始而無法兼顧。遇到這種情況時，當天工作人員需要立即聯繫現場認識的其他教練，或請選手向檢錄區的教練尋求協助，讓選手能如期上場。", "gain": "這次經驗讓我理解，無法預期所有人事時地物都完全按照原定計畫進行，因此各項工作都應盡可能準備備案。即使事前沒有預想到某種狀況，也需要具備立即反應與判斷的能力。雖然決策仍可能有失誤，但停留在原地並不會讓事情有進展；應勇於做出當下較合適的決定，並承擔後續責任。", "reflect": "我會依照過去對教練的了解，預先思考他可能遇到的狀況，並提前與他討論若無法出席或無法兼顧時的替代處理方式。我也會確認與他有交情的其他教練是否會出席這次競賽，並事先溝通，請對方在必要時提供臨時協助。"},
+  {"id": "club-review", "cat": "社團", "star": true, "pages": 2, "skills": ["talk", "teach"], "title": "社團評鑑", "role": "社長 - 向校外評審說明社團過去一年的經營狀況", "action": "了解所有活動資料的所在位置及其特色、作為其他幹部的示範", "hard": "其餘幹部對社團的整體運作與其他幹部的職責內容還不夠熟悉，因此在活動結束後，我先確認幹部們各自對社團事務的掌握程度，再針對他們不清楚的部分協助釐清與補齊說明。", "gain": "如果不主動溝通，很難直接掌握幹部們對事務的熟悉度。其實他們可能只缺少部分細節的資訊，大可放手讓他們向評審說明。評鑑過程是很好的練習機會，能幫助大家建立表達的自信與膽識。", "reflect": "在評鑑活動前就先確認大家對社團各項事務的了解狀況，並安排不同幹部當天針對各自熟悉的領域輪流說明。這樣大家才能展現自己口條與邏輯，我也能更清楚掌握團隊成員的優勢。"},
+  {"id": "club-kickoff", "cat": "社團", "pages": 3, "skills": ["talk", "teach"], "title": "期初大會", "role": "社長 – 主持活動流程", "action": "介紹社團、注意時程進度、注意參與人員學習狀況", "hard": "這是我接任社長後主持的第一個大型活動，難免感到緊繃，也會擔心時程控制或參與人員對簡報內容的反應。最終活動圓滿完成，事前所擔心的狀況並未發生。", "gain": "在眾人面前發言需要透過練習來累積經驗。只要做好充分準備，相信自己的專業能力與幹部夥伴的信任支援就足夠。自信可以從調整心態與肢體展現開始，由外而內逐步建立實力與自信。"},
+  {"id": "club-winter", "cat": "社團", "pages": 3, "skills": ["talk", "flow"], "title": "散打ｘ國術ｘ跆拳三社冬至聚餐", "role": "社長 – 統籌活動內容", "action": "人數調查、各社團分工、時間安排", "hard": "這次活動雖然由國術社發起，但由於前期討論不活絡且眼看活動日期將近，我便主動承接起統籌工作，負責確認時程、餐點數量與交換禮物流程等細節，帶領跆拳道社幹部協助整體活動順利推進。", "gain": "即便最初的角色是受邀參與者，仍需要隨時留意整體活動的推進時程，以確保活動流程順暢，並維護社團之間的良好溝通與合作關係。", "reflect": "在答應合作活動前，要先確認對方的初步規劃與分工。代表社團做決策時，應全面評估整體的可行性，避免僅憑交情就答應，才能讓後續的合作更有效率。"},
+  {"id": "club-outreach", "cat": "社團", "star": true, "pages": 2, "skills": ["talk"], "title": "帶動中小學", "role": "社長 – 協調兩校事宜", "action": "電子郵件聯絡國小負責人", "hard": "此國小已與本社團合作多年，但近年較常更換負責人，以至於每次交接時，都需要重新說明整個合作的來龍去脈並提供相關資料。由於我在指派幹部與國小聯絡時，沒有事先提醒幹部注意溝通措辭，造成雙方溝通上的不愉快，於是便由我接手聯繫，並補上先前缺少的文件。", "gain": "學校是個學習的環境，犯錯後基本上都有彌補的機會，但這種校外合作代表的是學校以及社團，因此在對外溝通時還是應謹慎為重，並記得為自己的言論負責。這也是我希望透過這次經驗，讓原先負責的幹部學習到的事。", "reflect": "放手讓基層幹部處理事情並不是問題，社長無法也不該時刻緊盯每件事，但在放手前，還是需要先給予適當的指導。我可以在他開始獨立處理事情的初期，確認他是否理解自己的角色與對外溝通時應注意的事項，等到他能夠獨立應對後，再逐步放手。"},
+  {"id": "class-crm", "cat": "課堂成果", "star": true, "kind": "系選修", "pages": 5, "skills": ["data"], "title": "顧客關係管理", "topic": "KATE（開架彩妝品牌）", "people": "個人", "purpose": "資管系的定位為「人與科技之間的橋樑」，在懂得技術的同時，也得了解吸引公司／品牌客戶的需求，掌握這些需求，才能提供相應的產品或服務。", "role": "學習者 – 決定研究主題、應用課堂知識、與AI協作", "hard": "KATE 為日籍品牌，在網路、康是美、寶雅等多通路銷售，因此資料整合不易，再加上涉及他國品牌在台代理的情況，研究範圍更廣。最後僅能使用敘述性統計進行分析，因缺乏足夠的實際數據，結論僅供參考，且不宜進一步進行歸納推演。", "ai": "課程要求成品需由 AI 產出，目的是訓練學生如何透過指令完成大部分工作，剩餘工作則是依據產出結果，向 AI 回饋下一個版本需要調整的內容，以此循環、反覆迭代，逐步改善成果。", "gain": "我認為 CRM 實際上的應用與名稱表面所呈現的意義有所不同，其關鍵在於分析顧客動機及行為，並依據「原始數據」判斷公司未來可以採取哪些行動，以提升顧客忠誠度或作為其他決策的依據。", "reflect": "因為是課堂實作，比起主題是否值得研究，前期更應考量原始資料是否容易取得。可以選擇會主動公開財報或其他非機密資料的企業作為研究主題，便能更順利地取得資料，並練習將資料轉換為有助於分析與決策的資訊。"},
+  {"id": "class-sad", "cat": "課堂成果", "star": true, "kind": "系必修", "pages": 14, "skills": ["flow", "data"], "title": "系統分析與設計", "topic": "常春藤英語聯盟 – 苗栗分校", "people": "團體 8 人", "purpose": "針對痛點分析需求並提出解法，將資料輸入單一入口，即可依據使用者在該系統中的權限使用相應功能，最終轉換為所需的資訊。", "role": "負責人 – 進度報告、與老師討論交流\n學習者 – 參與組內方向討論與實作，並提供組員可參考的範例", "hard": "老師建議選擇認識的業者作為研究對象，因此由謝姓組員負責此補習班的資料蒐集及需求訪談。由於我沒有實際參與前期接洽，因此較難從使用者的角度設想可能遇到的困境，尤其在分析過程中，難以確認是否有遺漏尚未納入考量的資料或需求，於是只能隨著進度推進，在發現問題時再次向業者確認。", "ai": "實作過程中，我希望培養系統分析的思考邏輯，因此傾向自主判斷，幾乎沒有考慮使用 AI 協助。不過，若要導入 AI，我認為可以應用在設計藍圖上。課堂中的設計僅為了清楚呈現而進行大致編排，但實際應用時，可能需要參考通用 APP 的排版方式，盡量符合使用者的操作習慣，以降低學習成本，讓使用者更快上手。", "gain": "一個人製作成果時可能會有盲點，尤其在製作過程順暢時，更不容易察覺潛在的問題。但透過團隊合作，可以參考不同人的思考方式及使用習慣，從不同角度檢視設計，讓成果更貼近多數使用者的需求。", "reflect": "整個研究中，「需求及資料蒐集不完全」是最大的問題之一。需求分析中較具挑戰性的部分，在於如何從實際使用者的情境中發掘需求，而工具及方法則能透過學習逐步掌握。我應該實際參與初步調查，甚至進一步確認當初是透過實體還是線上方式進行諮詢。此外，我也認為完整記錄需求訪談與調查過程相當重要，才能在後續分析時回頭確認資訊，減少遺漏需求的可能性。"},
+  {"id": "class-db", "cat": "課堂成果", "star": true, "kind": "系必修", "pages": 6, "skills": ["data"], "title": "資料庫程式設計", "topic": "書籍心得分享系統", "people": "個人", "purpose": "學習資料庫的建立規則，使資料皆能依照設計規格保存，以利後續轉換為資訊並應用。", "role": "學習者 – 設計功能及資料庫", "hard": "流程設計難以一次就涵蓋所有必要步驟，因此需要多次檢視是否有遺漏部分使用情境或操作邏輯，並針對需要調整的部分持續更新。", "ai": "我負責定義資料欄位及屬性，而全端程式碼則由 AI 編寫。", "gain": "操作流程的設計需要透過日常對各式頁面的觀察累積經驗，並適時換位思考，在使用者及維護者兩種角度之間切換，避免設計過度偏重單一角色，導致版面過於複雜或蒐集超出實際需求的資料。", "reflect": "先確立資料蒐集的目的，以及希望吸引的使用者特質，再實際參考現有類似系統的前端設計，避免僅憑個人想像拼湊出系統，讓功能與操作流程更貼近實際使用情境。"},
+  {"id": "class-spm", "cat": "課堂成果", "star": true, "kind": "系必修", "pages": 6, "skills": ["flow"], "title": "軟體專案管理", "topic": "跟著祥龍走－苗栗火旁龍文化與互動體驗學習平台", "people": "個人", "purpose": "將管理方法套用在正在進行的課業上，比較規劃內容與實際執行之間的差異。", "role": "學習者 – 以畢業專題為主題，模擬若是將其作為正式專案進行，需要拆解多少個步驟。", "hard": "專題製作採分工進行，雖然了解其他組員負責的內容，但對詳細過程及設計並不清楚，以至於難以進一步細分各階段的工作。由於該堂課程與專題實作並無直接關聯，因此當時沒有特別深入處理這個問題，而是依據個人了解的情況進行撰寫。", "ai": "不清楚工作步驟需要拆解到多細，以及哪些內容是必要的，所以先向 AI 大致說明需求並生成第一版，再提出修改方向，持續迭代調整。", "gain": "雖然敏捷開發在軟體開發實務中受到廣泛關注，但課程中使用的方法較接近瀑布式開發，希望讓流程循序漸進。不過，實務上遇到問題時，通常不會一直停留在原處，而是先處理其他不受影響的部分，或許過一段時間就會有新的解法，這是我在製作專題時的經歷。不同管理方法的出現，不一定是為了完全取代前一種，而是需要依據當下的情境選擇或搭配。因此，即使採用瀑布式開發，也仍有值得參考的規劃邏輯。", "reflect": "專題是系上安排的三學期課程，我應該更重視專案管理，在專題討論時間主動向其他組員確認各階段工作的進度與成果，並將確認後的資訊融入系統規格書中，作為專案規劃與進度追蹤的依據。"},
+  {"id": "class-security", "cat": "課堂成果", "kind": "系選修", "pages": 3, "skills": ["data"], "title": "資訊安全與管理", "topic": "ICDL – Cyber Security證照、課堂筆記", "people": "個人", "purpose": "學習如何加強自身系統的安全性，以降低外部攻擊及資訊洩漏的風險。", "role": "學習者 – 了解資安議題及加解密技術", "gain": "本課程著重於密碼學，探討多種加密方法並拆解其運作邏輯，例如密碼雜湊函數的三項準則、對稱式與非對稱式加密，以及加鹽法等概念。方法百百種，不可能全部銘記，我認為最基礎也是最重要的是：資訊安全必須建立在 CIA（機密性、完整性、可用性）三大原則之上，並搭配身分驗證、不可否認性及存取控制等安全機制，才能更全面地保護資訊。"},
+  {"id": "class-ds", "cat": "課堂成果", "kind": "系必修", "pages": 6, "skills": ["data"], "title": "資料結構", "topic": "課堂筆記、自學筆記", "people": "個人", "purpose": "了解撰寫程式之前，需要先定義哪些規格，以及如何安排資料之間的關係。", "role": "學習者 –理解資料之間的關聯與影響可以如何應用，並透過系上教授錄製的公開課程自學演算法。", "hard": "此課程為大二修課，但大一的程式設計學習成效並不理想。雖然課堂內容以理論為主，因此能夠理解相關概念，但若要進一步應用在實作上，我認為自己還無法充分透過程式碼呈現學習成果。不過，因為寒假時剛好有在正式上課前自學演算法，因此對於程式碼的邏輯理解仍有一定的輔助作用。", "gain": "在過去記憶體昂貴的年代，效率與容量是程式設計中受到重視的考量，因此需要思考資料應如何存放，以及如何透過不同的方法取得所需的結果。透過資料結構的學習，我逐漸理解，資料不只是單純地儲存，更重要的是如何安排資料之間的關係，讓後續的查找、修改與運算能夠更有效率。"},
+  {"id": "class-net", "cat": "課堂成果", "kind": "系選修", "pages": 3, "skills": ["data"], "title": "網路管理", "topic": "課堂作業", "people": "個人", "purpose": "因為在修完上個學期的商業資料通訊（系必修）後，對網路拓樸以及如何建置網路感興趣，於是繼續選修進階的網路管理。", "role": "學習者 – 吸收課堂知識", "hard": "課堂中不斷學習新的功能設定，但如果老師沒有補充實際應用情境，我通常不會主動思考這些功能在實務上可以如何運用。漸漸地，發現自己難以單靠興趣記住各項功能的用途及設定規則，因此完成這學期的課程後，便沒有繼續選修下學期更進階的網路規劃與分析。這也讓我意識到，光是對一個領域感興趣還不夠，還需要理解知識與實際需求之間的關聯，才能持續投入學習。", "ai": "當時沒有想到可以利用 AI，將每次課堂學到的內容帶入實際場域，透過具體情境理解技術的用途，讓新知識與既有經驗產生更深的連結。", "gain": "以前使用學校系統時，曾發現有些網站只能在連接學校網路時使用，但當時沒有進一步思考背後的原因。透過這門課程，我才開始理解，能否使用一個系統，除了與 IP 位址、所屬網段及路由設定有關，也可能受到防火牆規則與存取權限等因素影響。這讓我開始從實際使用經驗回頭思考背後的網路架構，也理解學習技術不只是記住功能與規則，更重要的是知道它們在什麼情境下發揮作用。", "reflect": "AI 的應用價值不應只停留在像 Google 一樣查詢或解釋名詞，也可以進一步透過具體情境、案例及操作示範，幫助我理解較艱深的知識。我認為，現今取得知識的管道已相當普及，除了知識本身，如何引發好奇心與學習動機也很重要。如果能在每次學習後，進一步請 AI 舉出實際應用案例，甚至模擬不同網路設定可能造成的結果，或許就能讓我更有方向地探索技術，而不只是為了完成課程而學習。"},
+  {"id": "class-mgmt", "cat": "課堂成果", "kind": "系必修", "pages": 5, "skills": ["talk"], "title": "管理學", "topic": "企業訪談 – 四季村國際股份有限公司", "people": "團體 5 人", "purpose": "透過與管理階層對談，了解企業經營過程中會面臨哪些決策，以及管理者如何思考與應對。", "role": "訪問者 – 與受訪者進行訪談", "hard": "事先準備問題只是讓我在訪問時有提問的參考，而不是依序照著發問。受訪者在回覆時也可能跨題回答，由於對方並不清楚我們事先準備了哪些問題，因此需要在對談當下判斷哪些問題已獲得解答、哪些仍值得深入了解，並盡量延伸每次對話，取得更多有助於理解企業經營的資訊。", "gain": "董事長提到，這世上可分為三種人（不燃人、可燃人、自燃人），差異在於好奇心及原動力。我認為多數人都期望有所成就或擁有更好的生活，但有時未必會進一步檢視自己的理念與實際行為是否一致。當採取的策略與目標方向不同時，即使有理想，也可能難以真正實現，導致夢想始終停留在想像中。這讓我理解，除了設定目標，也需要持續檢視自己的行動是否與目標一致。", "reflect": "可以事先提供訪綱，讓業主提前了解我們預計提出的問題，並依據訪談目的調整各主題的提問比例，將更多時間放在有助於理解該企業經營特色與優勢的內容上。如果有不方便回答的問題，也能提前討論並適度調整，讓訪談進行得更順利。"},
+  {"id": "pub-hackathon", "cat": "校外發表", "award": "最佳潛力星獎", "pages": 4, "skills": ["talk", "teach"], "title": "115年苗栗縣苗青創想家黑客松競賽", "topic": "空地不是你的VI席", "people": "團體 4 人", "role": "文件製作 – 初賽需繳交的文件\n報告者 – 決賽當天報告、回答評審提問", "hard": "報告結束後，評審有2分鐘的提問時間，需先記錄問題，再於事後統一回覆。當時由其他組員負責記錄問題，再由我回答。但我沒有預料到評審可能會透過較長的鋪陳來描述問題，以至於後來我要依據組員的記錄來回應時，看到的是較為零散的問題內容。於是，我憑著先前聆聽的印象，以及記錄中的關鍵詞彙，拼湊出可能的問題方向，並回答評審的提問。", "ai": "製作初賽文件時，我將研究發現以條列式敘述提供給AI，請它先依據大方向分類資料，再撰寫出符合問題定義，並試圖提出解決方法的敘述。", "gain": "文字的擴充需要建立在原始資料的正確度上。當掌握事實並具備判斷力時，AI便是能節省時間的幫手。反過來說，GIGO（Garbage In, Garbage Out），如果輸入的資料本身就有問題，那麼後續產出的內容也可能失去意義。", "reflect": "我應該先和組員們討論好紀錄的形式，以及是否由我統一回答評審的問題。即使其他組員不負責回答，也可以將自己的想法一同記錄下來，讓回覆內容更加完整。若組員彼此熟識，可以依據對彼此的了解建立信任；但這次是與學妹們組隊，彼此還不熟悉，因此更應該事先確認分工與溝通方式，並評估可能遇到的狀況，找出相應的應對方式。"},
+  {"id": "pub-conf", "cat": "校外發表", "star": true, "award": "論文收錄", "pages": 6, "skills": ["talk", "teach"], "title": "2026第十七屆前瞻管理學術與產業趨勢研討會", "topic": "跟著龍走-𪹚龍文化與互動體驗", "people": "團體 8 人", "role": "報告者 – 報告說明專題內容，並回答評審提問。", "hard": "報告結束後，評審針對我們事先繳交的文件提出問題，但內容明顯與我們的資料不符。當下我不確定該如何指正，經過一兩輪對話後，我發現現場等待報告的其他組別顯得躁動不安，也進一步確認該份文件應屬於其他組別。在掌握足夠資訊後，我向評審說明實情，並協助將討論導回我們的專題內容。", "ai": "在文件撰寫上，AI確實具備較好的敘述與整理能力，能協助我們將蒐集到的資料整理成較有條理的文字，也能提供不同面向的表達方式。但我們仍會逐段檢查內容是否正確、是否符合專題方向，並補上與團隊討論後的觀點，確保最終成果能反映我們自己的研究過程與判斷。", "gain": "每一次上台經驗都是訓練靈機反應的機會。這次讓我學到，面對突發狀況時，除了保持冷靜，也要快速蒐集現場資訊、確認事實，再選擇合適的方式溝通。報告不只是把準備好的內容說完，更需要在提問與互動中即時理解對方的問題、說明自己的立場，並維持整體流程順利進行。", "reflect": "遇到錯誤，以討論的方式指出，避免對方難堪，以及快速導回正題。"}
+];
+/* 自傳：每個項目是一段 */
+const BIO = [
+  "【第一段：成長背景與對人、對系統的興趣】",
+  "【第二段：學習與實作經驗，如何培養流程分析與溝通能力】",
+  "【第三段：為什麼想成為服務顧問師，以及想為客戶帶來什麼】"
+];
+
+/* Q&A：q 為問題、a 為回答（回答可用 \n 換行） */
+const QA = [
+  {q:"請簡單自我介紹。", a:"【請填入你的回答】"},
+  {q:"為什麼想成為服務顧問師？", a:"【請填入你的回答】"},
+  {q:"為什麼選擇鼎新？", a:"【請填入你的回答】"},
+  {q:"請分享一次和他人意見不同時，你如何處理。", a:"【情境、行動、結果】"},
+  {q:"你如何使用 AI？怎麼確保結果正確？", a:"【請填入你的回答】"},
+  {q:"你認為自己最大的不足是什麼？如何改善？", a:"【請填入你的回答】"}
+];
+/* ========================================================== */
+
+const LABEL = {purpose:"目的",role:"我的角色",action:"行動",hard:"困難與解法",ai:"AI 協作",gain:"成長收穫",reflect:"若重做，我會…"};
+const FIELDS = {
+  "課堂成果":["purpose","role","hard","ai","gain","reflect"],
+  "社團":["role","action","hard","gain","reflect"],
+  "校外發表":["role","hard","ai","gain","reflect"]
+};
+const NAME = {"課堂成果":"課程名稱","社團":"活動名稱","校外發表":"競賽名稱"};
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const app = $("app"), dlg = $("bioDlg");
+const S = {cat:"全部", skill:null, id:WORKS[0].id, page:0, view:"works"};
+const visible = w => (S.cat==="全部"||w.cat===S.cat) && (!S.skill||w.skills.includes(S.skill));
+
+/* ---- 頁面狀態 ---- */
+function setCollapsed(c){
+  app.classList.toggle("collapsed",c);
+  const t=$("toggle"); t.setAttribute("aria-expanded",!c); t.textContent=c?"個人資料 ›":"‹ 收合";
+}
+function enterWorks(){
+  app.classList.remove("home"); setCollapsed(false);
+  $("homeBio").hidden=true; $("works").hidden=false; scrollTo(0,0);
+}
+function goHome(){
+  app.classList.add("home"); app.classList.remove("collapsed");
+  $("homeBio").hidden=false; $("works").hidden=true; scrollTo(0,0);
+}
+function setView(v){
+  S.view=v; $("viewWorks").hidden=v!=="works"; $("viewQA").hidden=v!=="qa";
+  document.querySelectorAll("[data-view]").forEach(b=>b.setAttribute("aria-selected",b.dataset.view===v));
+}
+
+/* ---- 渲染 ---- */
+function renderSide(){
+  $("skills").innerHTML = SKILLS.map(s =>
+    `<button class="skill" data-s="${s.id}" aria-pressed="${S.skill===s.id}"><b>${esc(s.name)}</b><span>${esc(s.desc)}</span></button>`).join("");
+  $("tabs").innerHTML = ["全部",...CATS].map(c => {
+    const n = WORKS.filter(w => c==="全部"||w.cat===c).length;
+    return `<button class="tab" role="tab" data-c="${c}" aria-selected="${S.cat===c}">${c}（${n}）</button>`}).join("");
+  const f = $("filter"); f.hidden = !S.skill;
+  if(S.skill) f.innerHTML = `僅顯示與「${esc(SKILLS.find(s=>s.id===S.skill).name)}」相關的作品　<button data-clear>清除</button>`;
+}
+function renderList(){
+  const ws = WORKS.filter(visible);
+  $("list").innerHTML = ws.map(w =>
+    `<li><button class="item" data-id="${w.id}" aria-current="${w.id===S.id}">${w.star?"★ ":""}${esc(w.title)}<small>${w.cat}${w.kind?"・"+esc(w.kind):""}・${w.pages} 頁</small></button></li>`).join("")
+    || `<li style="padding:12px;color:var(--muted)">此分類尚無作品</li>`;
+  if(ws.length && !ws.some(w=>w.id===S.id)) select(ws[0].id,false);
+}
+function renderDetail(){
+  const w = WORKS.find(x=>x.id===S.id); if(!w) return;
+  const p = S.page, n = w.pages, src = `works/${w.id}/${p+1}.jpg`;
+  $("detail").innerHTML = `
+  <div class="head"><small>${NAME[w.cat]}</small><h3>${esc(w.title)}</h3></div>
+  ${w.topic?`<p style="margin:6px 0 0"><b>主題</b>　${esc(w.topic)}</p>`:""}
+  <div class="meta"><span class="chip">${w.cat}</span>${w.year?`<span class="chip">${esc(w.year)}</span>`:""}${w.kind?`<span class="chip">${esc(w.kind)}</span>`:""}${w.award?`<span class="chip award">榮獲：${esc(w.award)}</span>`:""}
+    ${w.people?`<span class="chip">人數：${esc(w.people)}</span>`:""}
+    <button class="jump" data-jump>看成果頁面 ↓</button></div>
+  <div class="fields">${FIELDS[w.cat].filter(k=>w[k]).map(k=>
+    `<div class="${k==="gain"?"gain":""}"><h4>${LABEL[k]}</h4><p>${esc(w[k])}</p></div>`).join("")}</div>
+  ${(w.links||[]).length?`<p class="links">${w.links.map(l=>`<a href="${esc(l.href)}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join("")}</p>`:""}
+  <div class="vh" id="viewer"><b>成果頁面</b><span>共 ${n} 頁，可用 ← → 翻頁</span></div>
+  <div class="viewer">
+    <div class="stage"><img src="${src}" alt="${esc(w.title)} 第 ${p+1} 頁"
+      onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'ph',innerHTML:'<div><b>${p+1}</b>放入 ${src}</div>'}))"></div>
+    <div class="bar">
+      <button data-pg="-1" ${p===0?"disabled":""} aria-label="上一頁">←</button>
+      <div class="dots">${Array.from({length:n},(_,i)=>`<i class="${i===p?"on":""}"></i>`).join("")}</div>
+      <button data-pg="1" ${p===n-1?"disabled":""} aria-label="下一頁">→</button>
+      <span class="count">${p+1} / ${n}</span>
+    </div>
+  </div>`;
+}
+function renderQA(){
+  $("qaList").innerHTML = QA.map((x,i)=>
+    `<li><button class="qbtn" id="qb${i}" data-q="${i}" aria-expanded="false" aria-controls="qa${i}"><span class="n">Q${i+1}</span>${esc(x.q)}</button>
+     <div class="ans" id="qa${i}" role="region" aria-labelledby="qb${i}"><div><p>${esc(x.a)}</p></div></div></li>`).join("");
+}
+function toggleQ(i){
+  const wasOpen = $("qb"+i).getAttribute("aria-expanded")==="true";
+  QA.forEach((_,j)=>{
+    const on = j===i && !wasOpen;
+    $("qb"+j).setAttribute("aria-expanded",on); $("qa"+j).classList.toggle("open",on);
+  });
+}
+function select(id,scroll=true){
+  S.id=id; S.page=0; history.replaceState(null,"","#"+id);
+  renderList(); renderDetail();
+  if(scroll && innerWidth<=1000) $("detail").scrollIntoView({behavior:"smooth"});
+}
+function flip(d){
+  const w=WORKS.find(x=>x.id===S.id), np=S.page+d;
+  if(np>=0 && np<w.pages){S.page=np; renderDetail();}
+}
+
+/* ---- 事件 ---- */
+document.addEventListener("click",e=>{
+  const t=e.target.closest("button"); if(!t) return;
+  const d=t.dataset;
+  if("go" in d) enterWorks();
+  else if("home" in d) goHome();
+  else if("toggle" in d) setCollapsed(!app.classList.contains("collapsed"));
+  else if(d.view) setView(d.view);
+  else if("bioOpen" in d) dlg.showModal();
+  else if("close" in d) dlg.close();
+  else if(d.q) toggleQ(+d.q);
+  else if("jump" in d) $("viewer").scrollIntoView({behavior:"smooth"});
+  else if(d.c){S.cat=d.c; renderSide(); renderList(); renderDetail();}
+  else if(d.s){
+    S.skill = S.skill===d.s ? null : d.s;
+    if(app.classList.contains("home")) enterWorks();
+    setView("works"); renderSide(); renderList(); renderDetail();
+  }
+  else if("clear" in d){S.skill=null; renderSide(); renderList();}
+  else if(d.id) select(d.id);
+  else if(d.pg) flip(+d.pg);
+});
+dlg.addEventListener("click",e=>{ if(e.target===dlg) dlg.close(); });
+document.addEventListener("keydown",e=>{
+  if(app.classList.contains("home")||S.view!=="works"||dlg.open) return;
+  if(e.key==="ArrowRight") flip(1);
+  if(e.key==="ArrowLeft") flip(-1);
+});
+
+/* ---- 初始化 ---- */
+document.querySelectorAll("[data-bio]").forEach(el => el.innerHTML = BIO.map(t=>`<p>${esc(t)}</p>`).join(""));
+const h = location.hash.slice(1);
+if(WORKS.some(w=>w.id===h)) S.id=h;
+renderSide(); renderList(); renderDetail(); renderQA();
+if(WORKS.some(w=>w.id===h)) enterWorks();
+</script>
+</body>
+</html>
