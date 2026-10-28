@@ -133,6 +133,55 @@ dialog::backdrop{background:rgba(10,20,26,.6)}
  .list{position:static;max-height:240px;border:1px solid var(--line);border-radius:8px}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ===== 新增：關鍵字標註、首頁不出現直向卷軸、工作經驗 ===== */
+:root{--hl:rgba(185,119,14,.28)}
+@media(prefers-color-scheme:dark){:root{--hl:rgba(224,168,74,.32)}}
+mark{background:var(--hl);color:inherit;font-weight:700;border-radius:3px;padding:0 2px}
+.skill span{white-space:pre-line}
+.skill.static{cursor:default}
+.skill.static:hover{background:none;border-left-color:var(--line)}
+button.skill b::after{content:" →";color:var(--accent)}
+.more{align-self:flex-start;margin-top:12px;border:0;background:none;color:var(--accent);text-decoration:underline;text-underline-offset:4px;font-weight:700;font-size:16px;padding:0}
+.jobs{display:grid;gap:20px;max-width:1100px}
+.job{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:24px 28px}
+.jh h3{margin:0;font-size:22px}
+.jh p{margin:0;color:var(--muted)}
+.jm{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px 24px;margin:14px 0 18px;padding:12px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.jm dt{font-size:13px;color:var(--muted)}
+.jm dd{margin:0}
+.nav-gap{display:inline-block;width:5.5em}
+.go-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.go-row .btn{margin:0}
+.app:not(.home) .go-row{display:none}
+.bio-link{margin-left:14px;border:0;background:none;color:var(--accent);text-decoration:underline;text-underline-offset:4px;font-weight:500;font-size:14px;padding:0}
+.home .bio-link{display:none}
+.bio-text p{font-size:var(--bfs,17px);line-height:var(--blh,1.75)}
+.bio-text h3{font-size:calc(var(--bfs,17px)*1.12);margin:1.1em 0 .3em;color:var(--accent)}
+.bio-text h3:first-child{margin-top:0}
+.contact .upd{color:var(--muted);font-size:12.5px}
+@media(min-width:1001px){
+ .app.home{height:100vh;overflow:hidden}
+ .home .profile,.home .right{height:100vh}
+ .home .right{overflow:hidden}
+ .home .pin{padding:clamp(16px,4vh,44px) clamp(20px,3.5vw,56px);overflow-y:auto;scrollbar-width:none}
+ .home .pin::-webkit-scrollbar{display:none}
+ .home .pin-a{display:flex;align-items:center;gap:clamp(14px,2vw,28px);margin-bottom:clamp(10px,2.5vh,22px)}
+ .home .photo,.home .photo-fallback{width:clamp(96px,19vh,150px);height:clamp(96px,19vh,150px);margin:0;flex:none}
+ .home .profile h1{font-size:clamp(26px,3.2vw,42px)}
+ .home .go{font-size:16px;padding:9px 22px;margin:8px 0 0}
+ .home .about{margin:0}
+ .home .role{margin:2px 0 6px}
+ .home .profile h2{font-size:13px}
+ .home #skills{display:block}
+ .home .skill{padding:5px 12px;margin-bottom:5px}
+ .home .skill b{font-size:15px;line-height:1.4}
+ .home .skill span{font-size:13px;line-height:1.5}
+ .home .contact{margin-top:10px;font-size:13.5px}
+ .home .bio-col{height:100vh;display:flex;flex-direction:column;max-width:none;padding:clamp(24px,7vh,72px) clamp(24px,4vw,72px)}
+ .home .bio-clip{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none}
+ .home .bio-clip::-webkit-scrollbar{display:none}
+}
 </style>
 </head>
 <body>
@@ -140,17 +189,27 @@ dialog::backdrop{background:rgba(10,20,26,.6)}
   <aside class="profile">
     <button class="toggle" id="toggle" data-toggle aria-expanded="true">‹ 收合</button>
     <div class="pin">
+      <div class="pin-a">
       <button class="back" data-home>← 回首頁</button>
       <img class="photo" src="me.jpg" alt="【楊琇伃】的照片" onerror="this.outerHTML='<div class=photo-fallback>你</div>'">
+      <div class="id-text">
       <h1>【楊琇伃】</h1>
-      <p class="role">服務顧問師 應徵者</p>
+      <p class="role">服務顧問師 應徵者<button class="bio-link" data-bio-open>自傳</button></p>
       <p class="about">國立聯合大學資訊管理學系116年畢業</p>
-      <button class="btn go" data-go>查看作品 →</button>
-      <h2>能力亮點（點選可看對應作品）</h2>
+      <div class="go-row">
+        <button class="btn go" data-go>查看作品 →</button>
+        <button class="btn go alt" data-go-qa>查看實習Q&amp;A →</button>
+      </div>
+      </div>
+      </div>
+      <div class="pin-b">
+      <h2>職缺要求的能力（點選看佐證）</h2>
       <div id="skills"></div>
       <div class="contact">
         <a href="mailto:U1233142@o365.nuu.edu.tw">U1233142@o365.nuu.edu.tw</a>
         <span>0968-544685</span>
+        <span class="upd">更新日期：2026/10/28</span>
+      </div>
       </div>
     </div>
   </aside>
@@ -158,14 +217,15 @@ dialog::backdrop{background:rgba(10,20,26,.6)}
   <div class="right">
     <section class="bio-col" id="homeBio">
       <h2>自傳</h2>
-      <div class="bio-text" data-bio></div>
+      <div class="bio-text bio-clip" data-bio></div>
     </section>
 
     <main class="works" id="works" hidden>
       <nav class="nav" aria-label="內容切換">
         <button data-view="works" aria-selected="true">作品</button>
+        <button data-view="jobs" aria-selected="false">工作經驗</button>
+        <span class="nav-gap" aria-hidden="true"></span>
         <button data-view="qa" aria-selected="false">Q&amp;A</button>
-        <button class="bio-btn" data-bio-open>自傳</button>
       </nav>
 
       <div id="viewWorks">
@@ -180,6 +240,11 @@ dialog::backdrop{background:rgba(10,20,26,.6)}
       <div id="viewQA" hidden>
         <p style="color:var(--muted);margin:0 0 16px">點選問題查看回答。</p>
         <ul class="qa" id="qaList"></ul>
+      </div>
+
+      <div id="viewJobs" hidden>
+        <p style="color:var(--muted);margin:0 0 16px">曾從事的工作與從中累積的能力。</p>
+        <div class="jobs" id="jobList"></div>
       </div>
     </main>
   </div>
@@ -197,10 +262,17 @@ dialog::backdrop{background:rgba(10,20,26,.6)}
 const CATS = ["社團", "課堂成果", "校外發表"];
 
 const SKILLS = [
-  {id:"flow",  name:"流程分析",   desc:"【例：畫出現況與目標流程，找出重複與斷點】"},
-  {id:"data",  name:"資料與系統", desc:"【例：Excel、SQL 基礎、進銷存概念】"},
-  {id:"talk",  name:"溝通協調",   desc:"【例：訪談使用者、整合不同意見】"},
-  {id:"teach", name:"教學與文件", desc:"【例：操作手冊、教育訓練】"}
+  /* 用 **關鍵字** 標註重點；go 填作品 id，或 "jobs" 代表「工作經驗」分頁；沒有 go 則不可點 */
+  {id:"erp",      name:"未具ERP證照",
+   desc:"計畫於115-2**課程修讀後考取**（若返校時間許可）。\n高職就讀商業經營科，具備**會計丙級證照**。"},
+  {id:"sql",      name:"具基礎SQL操作", go:"class-db",
+   desc:"運用**SQL及php**製作過系統。"},
+  {id:"analysis", name:"具有問題分析能力", go:"class-sad",
+   desc:"以補教業為**主題系統分析與設計，懂問問題，將需求細分拆解為可執行方向**。"},
+  {id:"comm",     name:"具解決及溝通協調能力", go:"club-outreach",
+   desc:"長期擔任**社團幹部**（顧問、社長、總務）及**團隊內負責人**。"},
+  {id:"service",  name:"具有顧客服務、主動積極、學習意願強、抗壓性高等特質", go:"jobs",
+   desc:"多方嘗試**各種職業**（餐廳外場服務生、補習班、救生員、禮賓接待等），**工作內容可快速上手，並習慣各種環境**。"}
 ];
 
 /* 圖片放法：works/作品id/1.jpg、2.jpg…（pages 填總頁數）。沒放圖時會顯示佔位頁。
@@ -228,11 +300,28 @@ const WORKS = [
   {"id": "pub-hackathon", "cat": "校外發表", "award": "最佳潛力星獎", "pages": 4, "skills": ["talk", "teach"], "title": "115年苗栗縣苗青創想家黑客松競賽", "topic": "空地不是你的VI席", "people": "團體 4 人", "role": "文件製作 – 初賽需繳交的文件\n報告者 – 決賽當天報告、回答評審提問", "hard": "報告結束後，評審有2分鐘的提問時間，需先記錄問題，再於事後統一回覆。當時由其他組員負責記錄問題，再由我回答。但我沒有預料到評審可能會透過較長的鋪陳來描述問題，以至於後來我要依據組員的記錄來回應時，看到的是較為零散的問題內容。於是，我憑著先前聆聽的印象，以及記錄中的關鍵詞彙，拼湊出可能的問題方向，並回答評審的提問。", "ai": "製作初賽文件時，我將研究發現以條列式敘述提供給AI，請它先依據大方向分類資料，再撰寫出符合問題定義，並試圖提出解決方法的敘述。", "gain": "文字的擴充需要建立在原始資料的正確度上。當掌握事實並具備判斷力時，AI便是能節省時間的幫手。反過來說，GIGO（Garbage In, Garbage Out），如果輸入的資料本身就有問題，那麼後續產出的內容也可能失去意義。", "reflect": "我應該先和組員們討論好紀錄的形式，以及是否由我統一回答評審的問題。即使其他組員不負責回答，也可以將自己的想法一同記錄下來，讓回覆內容更加完整。若組員彼此熟識，可以依據對彼此的了解建立信任；但這次是與學妹們組隊，彼此還不熟悉，因此更應該事先確認分工與溝通方式，並評估可能遇到的狀況，找出相應的應對方式。"},
   {"id": "pub-conf", "cat": "校外發表", "star": true, "award": "論文收錄", "pages": 6, "skills": ["talk", "teach"], "title": "2026第十七屆前瞻管理學術與產業趨勢研討會", "topic": "跟著龍走-𪹚龍文化與互動體驗", "people": "團體 8 人", "role": "報告者 – 報告說明專題內容，並回答評審提問。", "hard": "報告結束後，評審針對我們事先繳交的文件提出問題，但內容明顯與我們的資料不符。當下我不確定該如何指正，經過一兩輪對話後，我發現現場等待報告的其他組別顯得躁動不安，也進一步確認該份文件應屬於其他組別。在掌握足夠資訊後，我向評審說明實情，並協助將討論導回我們的專題內容。", "ai": "在文件撰寫上，AI確實具備較好的敘述與整理能力，能協助我們將蒐集到的資料整理成較有條理的文字，也能提供不同面向的表達方式。但我們仍會逐段檢查內容是否正確、是否符合專題方向，並補上與團隊討論後的觀點，確保最終成果能反映我們自己的研究過程與判斷。", "gain": "每一次上台經驗都是訓練靈機反應的機會。這次讓我學到，面對突發狀況時，除了保持冷靜，也要快速蒐集現場資訊、確認事實，再選擇合適的方式溝通。報告不只是把準備好的內容說完，更需要在提問與互動中即時理解對方的問題、說明自己的立場，並維持整體流程順利進行。", "reflect": "遇到錯誤，以討論的方式指出，避免對方難堪，以及快速導回正題。"}
 ];
-/* 自傳：每個項目是一段 */
+/* 工作經驗：每一筆是一份工作；欄位可用 period、title、dept、salary、company、industry、nature、size、duties，沒填的欄位連標題都不會顯示 */
+const JOBS = [
+  {"period": "2020/07/01-2020/07/31", "title": "餐廳外場服務人員", "dept": "餐廳", "company": "帝綸溫泉渡假大飯店", "industry": "休閒服務業", "nature": "兼職", "duties": "• 日常餐飲服務：負責跑單、擺盤、送餐、客人帶位、倒水及點餐。\n• 自助餐（Buffet）維護：負責早餐 Buffet 的上菜與補菜，以及相關客服工作。\n• 內外場協調：負責廚房內場與外場之間的業務聯繫與溝通。\n• 善後清理：於客人用餐完畢後，負責收拾碗盤與清理用餐環境。"},
+  {"period": "2024/07/20-2024/09/07", "title": "派遣救生員", "dept": "第三方為住宅大樓（七碩四季灣）", "salary": "$45,780", "company": "水動能運動有限公司", "industry": "運動及旅遊休閒服務業", "nature": "兼職", "duties": "• 現場安全戒護：維護游泳池及周邊區域秩序與安全，隨時注意泳客動態，預防溺水與意外發生。\n• 水質檢測與維護：定期進行水質檢測、回報，並協助維持水量及水質標準。\n• 環境與設備維護：協助泳池周邊環境清潔、場地與器材的維護管理。\n• 主管交辦事項：執行公司或主管交辦之其他相關工作。"},
+  {"period": "2024/11/15-2024/12/17", "title": "偏鄉課輔-大學伴", "salary": "$1,098", "company": "國立聯合大學", "industry": "教育業", "nature": "工讀", "duties": "製作上課教材、每周兩小時線上教學，輔導小學四年級國文"},
+  {"period": "2025/01/21-2025/01/22", "title": "寒訓營-學姊", "salary": "$6,030", "company": "大學門教育事業體系-員林班", "industry": "補教業", "nature": "工讀", "duties": "電訪詢問參加活動意願、關心學生學習狀況、協助找尋未來志向與目標、調查補習意願"},
+  {"period": "2025/06/28-2025/06/29", "title": "Show Girl", "dept": "第三方為國宏出光機油", "salary": "$7,500", "company": "艾惠爾整合行銷有限公司", "industry": "模特兒經紀業", "nature": "工讀", "duties": "廣告文宣發送、協助廠商推廣商品、現場來賓拍照互動"},
+  {"period": "2026/01/18", "title": "禮賓接待", "dept": "第三方為創世紀（啟動餐會）", "salary": "$3,000", "company": "艾惠爾整合行銷有限公司", "industry": "模特兒經紀業", "nature": "工讀", "duties": "引導賓客入場、新品試用包發放"},
+  {"period": "2026/05/30", "title": "畢業典禮司儀", "salary": "$2,500", "company": "國立聯合大學資訊管理學系", "industry": "教育業", "nature": "工讀", "duties": "場控、主持活動、引導參與人員上台"},
+  {"period": "2026/07/21-2026/07/25", "title": "模特助教", "dept": "第三方為頭份市公所（童趣時尚週體驗營）", "salary": "$10,000", "company": "艾惠爾整合行銷有限公司", "nature": "工讀", "duties": "儀態教學、活動紀錄、維持安全與秩序"}
+];
+
+/* 自傳：每個項目是一段；以 "## " 開頭是小標題；用 **文字** 可加粗 */
 const BIO = [
-  "【第一段：成長背景與對人、對系統的興趣】",
-  "【第二段：學習與實作經驗，如何培養流程分析與溝通能力】",
-  "【第三段：為什麼想成為服務顧問師，以及想為客戶帶來什麼】"
+  "## 一、動機",
+  "我對資料庫與系統分析課程特別感興趣，從釐清問題一直到提出解法，過程嚴謹且呈現清楚。ERP 是許多產業都會導入的資訊系統，涵蓋進銷存、財務、生產與管理流程，因此服務顧問在專案過程中有機會接觸不同產業的企業運作模式。這正好滿足我對各行各業的好奇心，也讓我能將資訊管理所學應用於實務。我希望透過鼎新服務顧問實習，深入了解企業需求與流程痛點，學習如何協助企業導入或優化 ERP，進而提出能改善營運效率的解決方案。",
+  "## 二、職涯目標與自我精進",
+  "**短程（4 個月｜實習期間）：** 熟悉 ERP 系統操作、企業流程與顧問工作模式，建立需求訪談、問題拆解、文件整理及溝通協調能力，並能在指導下獨立處理職務內的基礎問題。",
+  "**中程（5 個月至 1 年｜留任發展）：** 以實習留任、成為正式員工為目標，深化產業知識與系統應用能力，逐步具備獨立面對客戶、掌握專案進度，以及處理較複雜問題的能力。",
+  "**長程（1 年後｜專業深化）：** 朝系統規劃師或儲備幹部方向發展，培養跨系統解決方案規劃、大型專案管理與團隊領導能力，並建立協助企業推動數位轉型的視野。",
+  "## 三、技能與貢獻",
+  "透過系統分析與資料庫設計課程，我培養了釐清需求、整理資料及檢視流程的能力；在專題報告與研討會發表中，也累積了面對提問時快速確認問題、組織重點並清楚回應的經驗。擔任跆拳道社社長期間，我負責工作分配、進度追蹤、經費與活動協調，學會在資源有限的情況下調整分工、處理突發狀況，並重視經驗傳承。若有機會加入貴公司，我會將這些經驗運用於實習工作，協助團隊整理客戶需求、追蹤專案進度，並以主動學習、勇於請教與持續修正的態度，穩定完成交辦任務。"
 ];
 
 /* Q&A：q 為問題、a 為回答（回答可用 \n 換行） */
@@ -270,17 +359,18 @@ function enterWorks(){
 }
 function goHome(){
   app.classList.add("home"); app.classList.remove("collapsed");
-  $("homeBio").hidden=false; $("works").hidden=true; scrollTo(0,0);
+  $("homeBio").hidden=false; $("works").hidden=true; scrollTo(0,0); fitBio();
 }
 function setView(v){
-  S.view=v; $("viewWorks").hidden=v!=="works"; $("viewQA").hidden=v!=="qa";
+  S.view=v; $("viewWorks").hidden=v!=="works"; $("viewQA").hidden=v!=="qa"; $("viewJobs").hidden=v!=="jobs";
   document.querySelectorAll("[data-view]").forEach(b=>b.setAttribute("aria-selected",b.dataset.view===v));
 }
 
 /* ---- 渲染 ---- */
 function renderSide(){
-  $("skills").innerHTML = SKILLS.map(s =>
-    `<button class="skill" data-s="${s.id}" aria-pressed="${S.skill===s.id}"><b>${esc(s.name)}</b><span>${esc(s.desc)}</span></button>`).join("");
+  $("skills").innerHTML = SKILLS.map(s => s.go
+    ? `<button class="skill" data-skill="${s.id}"><b>${hl(s.name)}</b><span>${hl(s.desc)}</span></button>`
+    : `<div class="skill static"><b>${hl(s.name)}</b><span>${hl(s.desc)}</span></div>`).join("");
   $("tabs").innerHTML = ["全部",...CATS].map(c => {
     const n = WORKS.filter(w => c==="全部"||w.cat===c).length;
     return `<button class="tab" role="tab" data-c="${c}" aria-selected="${S.cat===c}">${c}（${n}）</button>`}).join("");
@@ -330,6 +420,36 @@ function toggleQ(i){
     $("qb"+j).setAttribute("aria-expanded",on); $("qa"+j).classList.toggle("open",on);
   });
 }
+const hl = s => esc(s).replace(/\*\*(.+?)\*\*/g,"<mark>$1</mark>");
+function goTo(t){
+  if(app.classList.contains("home")) enterWorks();
+  if(t==="jobs"){ setView("jobs"); scrollTo(0,0); return; }
+  setView("works"); S.cat="全部"; S.skill=null;
+  renderSide(); select(t);
+  if(innerWidth>1000) scrollTo(0,0);
+}
+function renderJobs(){
+  const meta=j=>[["任職期間",j.period],["所在部門",j.dept],["薪資情況",j.salary],["行業類別",j.industry],["公司性質",j.nature],["規模人數",j.size]]
+    .filter(([,v])=>v).map(([k,v])=>`<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join("");
+  $("jobList").innerHTML = JOBS.map(j=>{
+    const m=meta(j);
+    return `<article class="job">
+      <header class="jh"><h3>${esc(j.title||"")}</h3>${j.company?`<p>${esc(j.company)}</p>`:""}</header>
+      ${m?`<dl class="jm">${m}</dl>`:""}
+      ${j.duties?`<div class="fields"><div><h4>工作內容</h4><p>${esc(j.duties)}</p></div></div>`:""}
+    </article>`}).join("");
+}
+function fitBio(){
+  const el=document.querySelector("#homeBio .bio-text"); if(!el) return;
+  el.style.removeProperty("--bfs"); el.style.removeProperty("--blh");
+  if(innerWidth<=1000||$("homeBio").hidden) return;
+  let fs=17;
+  while(el.scrollHeight>el.clientHeight+1 && fs>11.5){
+    fs-=0.5;
+    el.style.setProperty("--bfs",fs+"px");
+    el.style.setProperty("--blh",fs>=15?"1.75":fs>=13?"1.65":"1.55");
+  }
+}
 function select(id,scroll=true){
   S.id=id; S.page=0; history.replaceState(null,"","#"+id);
   renderList(); renderDetail();
@@ -345,6 +465,7 @@ document.addEventListener("click",e=>{
   const t=e.target.closest("button"); if(!t) return;
   const d=t.dataset;
   if("go" in d) enterWorks();
+  else if("goQa" in d){ enterWorks(); setView("qa"); }
   else if("home" in d) goHome();
   else if("toggle" in d) setCollapsed(!app.classList.contains("collapsed"));
   else if(d.view) setView(d.view);
@@ -353,11 +474,7 @@ document.addEventListener("click",e=>{
   else if(d.q) toggleQ(+d.q);
   else if("jump" in d) $("viewer").scrollIntoView({behavior:"smooth"});
   else if(d.c){S.cat=d.c; renderSide(); renderList(); renderDetail();}
-  else if(d.s){
-    S.skill = S.skill===d.s ? null : d.s;
-    if(app.classList.contains("home")) enterWorks();
-    setView("works"); renderSide(); renderList(); renderDetail();
-  }
+  else if(d.skill){ const k=SKILLS.find(x=>x.id===d.skill); if(k&&k.go) goTo(k.go); }
   else if("clear" in d){S.skill=null; renderSide(); renderList();}
   else if(d.id) select(d.id);
   else if(d.pg) flip(+d.pg);
@@ -370,10 +487,14 @@ document.addEventListener("keydown",e=>{
 });
 
 /* ---- 初始化 ---- */
-document.querySelectorAll("[data-bio]").forEach(el => el.innerHTML = BIO.map(t=>`<p>${esc(t)}</p>`).join(""));
+const bioHTML = t => t.startsWith("## ")
+  ? `<h3>${esc(t.slice(3))}</h3>`
+  : `<p>${esc(t).replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>")}</p>`;
+document.querySelectorAll("[data-bio]").forEach(el => el.innerHTML = BIO.map(bioHTML).join(""));
 const h = location.hash.slice(1);
 if(WORKS.some(w=>w.id===h)) S.id=h;
-renderSide(); renderList(); renderDetail(); renderQA();
+renderSide(); renderList(); renderDetail(); renderQA(); renderJobs();
+requestAnimationFrame(fitBio); addEventListener("resize",fitBio); addEventListener("load",fitBio);
 if(WORKS.some(w=>w.id===h)) enterWorks();
 </script>
 </body>
