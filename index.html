@@ -326,12 +326,17 @@ const BIO = [
 
 /* Q&A：q 為問題、a 為回答（回答可用 \n 換行） */
 const QA = [
-  {q:"請簡單自我介紹。", a:"【請填入你的回答】"},
+  {q:"對鼎新ERP了解多少？", a:"市佔率70%：能夠讓我接觸到最多資源以獲取最多經驗，例如產業、客戶規模、專案大小。\n鼎新數智：因融合AI而改名。與時俱進的企業文化，能夠讓我與公司共同成長。\n經營理念：智慧工作，享樂生活。我與公司理念相同，科技應該是要讓人減少負擔，將重複性的工作交給系統，人們需要做的是創新的思考。"},
+  {q:"對鼎新最感興趣的地方？", a:"專屬學長姐：透過立即反饋能夠讓我及時調整作法，以達到快速成長。\n轉正留任：職場不是學習場所，當我能夠在實習階段就具備能力，轉正就是公司的即戰力。"},
   {q:"為什麼想成為服務顧問師？", a:"【請填入你的回答】"},
-  {q:"為什麼選擇鼎新？", a:"【請填入你的回答】"},
-  {q:"請分享一次和他人意見不同時，你如何處理。", a:"【情境、行動、結果】"},
-  {q:"你如何使用 AI？怎麼確保結果正確？", a:"【請填入你的回答】"},
-  {q:"你認為自己最大的不足是什麼？如何改善？", a:"【請填入你的回答】"}
+  {q:"對實習的想像？想在實習當中學到什麼？", a:"【請填入你的回答】"},
+  {q:"職涯規劃、未來發展？", a:"【請填入你的回答】"},
+  {q:"專題遇到問題如何解決？", a:"【請填入你的回答】"},
+  {q:"是否擁有自學能力？", a:"我會先探討自己的學習動機及目的，釐清是為了什麼而學，再去設立學習目標，盲目投入反而容易半途而廢。尤其AI普及的時代，幾乎不該存在無法靠自學入門的技藝。"},
+  {q:"我的優缺點（各三）？", a:"優1：觀察 – 欣賞其他人的優點，變成自己的技能。\n優2：理性 – 分析對方想得到什麼，如果是問題可以怎麼拆解。\n優3：直率 – 溝通不拐彎抹角，追求盡快資訊對齊達到共識。\n缺1：緊繃 – 對自我要求高，追求比前一次更好。\n缺2：執著 – 不懂的事會一直問，不會裝懂快速帶過。\n缺3：多慮 – 試想很多可能性及發展方向，自己模擬可以怎麼應對。"},
+  {q:"有碰過什麼困難？", a:"在社團擔任總務期間，做事方式和社長不盡相同，衍伸出相處問題，於是為了團隊間的溝通順暢，主動提出希望討論並調整的事由，例如：統一公告資訊、多人分工、時程掌控等。"},
+  {q:"為什麼要錄取我？", a:"大多數人在乎什麼？錢多事少離家近？\n我最在乎的是我是否能夠發揮個人價值，並為其他人帶來益處。而我認為這樣的特質是我與公司雙方皆能夠收穫最多的情境。"}
+
 ];
 /* ========================================================== */
 
@@ -345,7 +350,8 @@ const NAME = {"課堂成果":"課程名稱","社團":"活動名稱","校外發�
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const app = $("app"), dlg = $("bioDlg");
-const S = {cat:"全部", skill:null, id:WORKS[0].id, page:0, view:"works"};
+const starFirst = (a,b) => (b.star?1:0) - (a.star?1:0);
+const S = {cat:"全部", skill:null, id:[...WORKS].sort(starFirst)[0].id, page:0, view:"works"};
 const visible = w => (S.cat==="全部"||w.cat===S.cat) && (!S.skill||w.skills.includes(S.skill));
 
 /* ---- 頁面狀態 ---- */
@@ -378,7 +384,7 @@ function renderSide(){
   if(S.skill) f.innerHTML = `僅顯示與「${esc(SKILLS.find(s=>s.id===S.skill).name)}」相關的作品　<button data-clear>清除</button>`;
 }
 function renderList(){
-  const ws = WORKS.filter(visible);
+  const ws = WORKS.filter(visible).sort(starFirst);
   $("list").innerHTML = ws.map(w =>
     `<li><button class="item" data-id="${w.id}" aria-current="${w.id===S.id}">${w.star?"★ ":""}${esc(w.title)}<small>${w.cat}${w.kind?"・"+esc(w.kind):""}・${w.pages} 頁</small></button></li>`).join("")
     || `<li style="padding:12px;color:var(--muted)">此分類尚無作品</li>`;
@@ -431,7 +437,8 @@ function goTo(t){
 function renderJobs(){
   const meta=j=>[["任職期間",j.period],["所在部門",j.dept],["薪資情況",j.salary],["行業類別",j.industry],["公司性質",j.nature],["規模人數",j.size]]
     .filter(([,v])=>v).map(([k,v])=>`<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join("");
-  $("jobList").innerHTML = JOBS.map(j=>{
+  const jobKey=j=>{const m=(j.period||"").match(/(\d{4})\/(\d{1,2})(?:\/(\d{1,2}))?/);return m?(+m[1])*10000+(+m[2])*100+(+(m[3]||0)):0;};
+  $("jobList").innerHTML = [...JOBS].sort((a,b)=>jobKey(b)-jobKey(a)).map(j=>{
     const m=meta(j);
     return `<article class="job">
       <header class="jh"><h3>${esc(j.title||"")}</h3>${j.company?`<p>${esc(j.company)}</p>`:""}</header>
