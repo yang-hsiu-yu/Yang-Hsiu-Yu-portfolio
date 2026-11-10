@@ -151,6 +151,12 @@ button.skill b::after{content:" →";color:var(--accent)}
 .jm dt{font-size:13px;color:var(--muted)}
 .jm dd{margin:0}
 .nav-gap{display:inline-block;width:5.5em}
+.read{display:flex;flex-direction:column;gap:18px;max-width:860px;margin:4px 0 8px}
+.read h4{margin:0 0 2px;font-size:14px;color:var(--muted);font-weight:500}
+.read p{margin:0;white-space:pre-line}
+.r-title h3{margin:0;font-size:26px;line-height:1.4}
+.r-blk.gain{border-left:3px solid var(--mark);padding-left:14px}
+.ans strong{color:var(--ink)}
 .go-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
 .go-row .btn{margin:0}
 .app:not(.home) .go-row{display:none}
@@ -295,7 +301,8 @@ const WORKS = [
   {"id": "class-net", "cat": "課堂成果", "kind": "系選修", "pages": 3, "skills": ["data"], "title": "網路管理", "topic": "課堂作業", "people": "個人", "purpose": "因為在修完上個學期的商業資料通訊（系必修）後，對網路拓樸以及如何建置網路感興趣，於是繼續選修進階的網路管理。", "role": "學習者 – 吸收課堂知識", "hard": "課堂中不斷學習新的功能設定，但如果老師沒有補充實際應用情境，我通常不會主動思考這些功能在實務上可以如何運用。漸漸地，發現自己難以單靠興趣記住各項功能的用途及設定規則，因此完成這學期的課程後，便沒有繼續選修下學期更進階的網路規劃與分析。這也讓我意識到，光是對一個領域感興趣還不夠，還需要理解知識與實際需求之間的關聯，才能持續投入學習。", "ai": "當時沒有想到可以利用 AI，將每次課堂學到的內容帶入實際場域，透過具體情境理解技術的用途，讓新知識與既有經驗產生更深的連結。", "gain": "以前使用學校系統時，曾發現有些網站只能在連接學校網路時使用，但當時沒有進一步思考背後的原因。透過這門課程，我才開始理解，能否使用一個系統，除了與 IP 位址、所屬網段及路由設定有關，也可能受到防火牆規則與存取權限等因素影響。這讓我開始從實際使用經驗回頭思考背後的網路架構，也理解學習技術不只是記住功能與規則，更重要的是知道它們在什麼情境下發揮作用。", "reflect": "AI 的應用價值不應只停留在像 Google 一樣查詢或解釋名詞，也可以進一步透過具體情境、案例及操作示範，幫助我理解較艱深的知識。我認為，現今取得知識的管道已相當多元，除了知識本身，如何引發好奇心與學習動機也很重要。如果能在每次學習後，進一步請 AI 舉出實際應用之案例，甚至模擬不同網路設定可能造成的結果，或許就能讓我更有方向地探索技術，而不只是為了完成課程而學習。"},
   {"id": "class-mgmt", "cat": "課堂成果", "kind": "系必修", "pages": 5, "skills": ["talk"], "title": "管理學", "topic": "企業訪談 – 四季村國際股份有限公司", "people": "團體 5 人", "purpose": "透過與管理階層對談，了解企業經營過程中會面臨哪些決策，以及管理者如何思考與應對。", "role": "訪問者 – 與受訪者進行訪談", "hard": "事先準備問題只是讓我在訪問時有提問的參考，而不是依序照著發問。受訪者在回覆時也可能跨題回答，由於對方並不清楚我們事先準備了哪些問題，因此需要在對談當下判斷哪些問題已獲得解答、哪些仍值得深入了解，並盡量延伸每次對話，取得更多有助於理解企業經營的資訊。", "gain": "董事長提到，這世上可分為三種人（不燃人、可燃人、自燃人），差異在於好奇心及原動力。我認為多數人都期望有所成就或擁有更好的生活，但有時未必會進一步檢視自己的理念與實際行為是否一致。當採取的策略與目標方向不同時，即使有理想，也可能難以真正實現，導致夢想始終停留在想像中。這讓我理解，除了設定目標，也需要持續檢視自己的行動是否與目標一致。", "reflect": "可以事先提供訪綱，讓業主提前了解我們預計提出的問題，並依據訪談目的調整各主題的提問比例，將更多時間放在有助於理解該企業經營特色與優勢的內容上。如果有不方便回答的問題，也能提前討論並適度調整，讓訪談進行得更順利。"},
   {"id": "pub-hackathon", "cat": "校外發表", "award": "最佳潛力星獎", "pages": 4, "skills": ["talk", "teach"], "title": "115年苗栗縣苗青創想家黑客松競賽", "topic": "空地不是你的VIP席", "people": "團體 4 人", "role": "文件製作 – 初賽需繳交的文件\n報告者 – 決賽當天報告、回答評審提問", "hard": "報告結束後，評審有2分鐘的提問時間，需先記錄問題，再於事後統一回覆。當時由其他組員負責記錄問題，再由我回答。但我沒有預料到評審可能會透過較長的鋪陳來描述問題，以至於後來我要依據組員的記錄來回應時，看到的是較為零散的問題內容。於是，我憑著先前聆聽的印象，以及記錄中的關鍵詞彙，拼湊出可能的問題方向，並回答評審的提問。", "ai": "製作初賽文件時，我將研究發現以條列式敘述提供給AI，請它先依據大方向分類資料，再撰寫出符合問題定義，並試圖提出解決方法的敘述。", "gain": "文字的擴充需要建立在原始資料的正確度上。當掌握事實並具備判斷力時，AI便是能節省時間的幫手。反過來說，GIGO（Garbage In, Garbage Out），如果輸入的資料本身就有問題，那麼後續產出的內容也可能失去意義。", "reflect": "我應該先和組員們討論好紀錄的形式，以及是否由我統一回答評審的問題。即使其他組員不負責回答，也可以將自己的想法一同記錄下來，讓回覆內容更加完整。若組員彼此熟識，可以依據對彼此的了解建立信任；但這次是與學妹們組隊，彼此還不熟悉，因此更應該事先確認分工與溝通方式，並評估可能遇到的狀況，找出相應的應對方式。"},
-  {"id": "pub-conf", "cat": "校外發表", "star": true, "award": "論文收錄", "pages": 6, "skills": ["talk", "teach"], "title": "2026第十七屆前瞻管理學術與產業趨勢研討會", "topic": "跟著龍走-𪹚龍文化與互動體驗", "people": "團體 8 人", "role": "報告者 – 報告說明專題內容，並回答評審提問。", "hard": "報告結束後，評審針對我們事先繳交的文件提出問題，但提問內容明顯與我們的資料不符。當下我不確定該如何指正，經過一兩輪對話後，我發現現場等待報告的其他組別顯得躁動不安，進一步確認後發現該份文件不屬於我們。在掌握足夠資訊後，我向評審說明實情，並協助將討論導回我們的專題內容。", "ai": "在文件撰寫上，AI確實具備較好的敘述與整理能力，能協助我們將蒐集到的資料整理成較有條理的文字，也能提供不同面向的表達方式。但我們仍會逐段檢查內容是否正確、是否符合專題方向，並補上與團隊討論後的觀點，確保最終成果能反映我們自己的研究過程與判斷。", "gain": "每一次上台經驗都是訓練靈機反應的機會。這次讓我學到，面對突發狀況時，除了保持冷靜，也要快速蒐集現場資訊、釐清事實，再選擇合適的方式回應。報告不只是完整呈現事先準備的內容，更需要在提問與互動中即時理解對方的問題，表達自己的想法，讓整體流程順利進行。", "reflect": "遇到文件或資料有誤時，我會以討論的方式向評審說明，例如先確認「這份文件是否為其他組別的資料」，再進一步補充我們的內容，避免讓對方感到難堪，也能更快將焦點導回我們的專題。"}
+  {"id": "pub-conf", "cat": "校外發表", "award": "論文收錄", "pages": 6, "skills": ["talk", "teach"], "title": "2026第十七屆前瞻管理學術與產業趨勢研討會", "topic": "跟著龍走-𪹚龍文化與互動體驗", "people": "團體 8 人", "role": "報告者 – 報告說明專題內容，並回答評審提問。", "hard": "報告結束後，評審針對我們事先繳交的文件提出問題，但提問內容明顯與我們的資料不符。當下我不確定該如何指正，經過一兩輪對話後，我發現現場等待報告的其他組別顯得躁動不安，進一步確認後發現該份文件不屬於我們。在掌握足夠資訊後，我向評審說明實情，並協助將討論導回我們的專題內容。", "ai": "在文件撰寫上，AI確實具備較好的敘述與整理能力，能協助我們將蒐集到的資料整理成較有條理的文字，也能提供不同面向的表達方式。但我們仍會逐段檢查內容是否正確、是否符合專題方向，並補上與團隊討論後的觀點，確保最終成果能反映我們自己的研究過程與判斷。", "gain": "每一次上台經驗都是訓練靈機反應的機會。這次讓我學到，面對突發狀況時，除了保持冷靜，也要快速蒐集現場資訊、釐清事實，再選擇合適的方式回應。報告不只是完整呈現事先準備的內容，更需要在提問與互動中即時理解對方的問題，表達自己的想法，讓整體流程順利進行。", "reflect": "遇到文件或資料有誤時，我會以討論的方式向評審說明，例如先確認「這份文件是否為其他組別的資料」，再進一步補充我們的內容，避免讓對方感到難堪，也能更快將焦點導回我們的專題。"},
+  {"id": "pub-innoserve", "cat": "校外發表", "star": true, "award": "觀光創新應用組(TOUR) – 佳作", "pages": 3, "skills": ["talk", "teach"], "title": "2026第31屆大專校院資訊應用服務創新競賽(InnoServe)", "topic": "跟著龍走-𪹚龍文化與互動體驗", "people": "團體 8 人", "role": "回答Q&A者 – 在報告結束回答評審提問，及在組別攤位上介紹作品。", "hard": "競賽當天為組員分時段顧攤位，其他人可以自由活動。在不是我的時段經過了自己組攤位時，看到有其他組評審在向攤位組員提問，而組員的語氣及內容非常的不確定。於是我在空檔介入了對話，先補充了剛才組員回覆的問題，再延伸話題讓主題可以換一個方向聚焦。", "ai": "初賽需繳交影片及文件，而文件由我負責彙整。我先請所有組員提供符合競賽格式的相關介紹，再由我第一層篩選哪些作保留。接著提供AI主辦方的評分標準與關注重點，以此為基準彙整多份檔案至一份，並依據配分調整內容比例。", "gain": "這次的報告完Q&A跟攤位上救場經驗，讓我更加確信臨場反應是我的優勢，我認為關鍵在於對主題有多少知識量，以及有多想把知道的內容說清楚說明白讓其他人理解。或許當下的回答不夠完美，但我不會讓時間留白，而是把對方的提問再問清楚，或是說出目前已知，再提供其他相關補充。"}
 ];
 /* 工作經驗：每一筆是一份工作；欄位可用 period、title、dept、salary、company、industry、nature、size、duties，沒填的欄位連標題都不會顯示 */
 const JOBS = [
@@ -332,17 +339,18 @@ const QA = [
   {q:"專題遇到問題如何解決？", a:"我們組別的專題是以推廣文化為主題製作的unity網頁遊戲，以章節做分工，我負責的是將2D龍分部位著色，有點類似小畫家。\n從設計發想到實踐都是獨立完成，所以在過程中不免會遇到困難且AI無法找出問題，這時候我就會先閒置卡住的地方，暫時轉而去製作其他不牽連的部分，就會因為不一直聚焦在問題本身，而出現新的解法或想起遺漏的關鍵。"},
   {q:"是否擁有自學能力？", a:"我會先探討自己的學習動機及目的，釐清是為了什麼而學，再去設立學習目標，盲目投入反而容易半途而廢。尤其AI普及的時代，幾乎不該存在無法靠自學入門的技藝。"},
   {q:"我的優缺點（各三）？", a:"優1：觀察 – 欣賞其他人的優點，變成自己的技能。\n優2：理性 – 分析對方想得到什麼，如果是問題可以怎麼拆解。\n優3：直率 – 溝通不拐彎抹角，追求盡快資訊對齊達到共識。\n缺1：焦慮 – 沒有最好，只有更好。\n缺2：多慮 – 試想很多可能性及發展方向，模擬可以怎麼應對。\n缺3：敏感 – 察覺周遭環境變化，靈機應變調整狀態。"},
-  {q:"有碰過什麼困難？", a:"我們社團與教育部有個合作，要去國小教跆拳道。在我擔任社長那年指派了底下的幹部去做對接，但因種種原因導致溝通不愉快，得知後就換我接手。後續有去了解的校方的需求，並對齊雙方資訊來達成共識，也對幹部說明情況。\n（點擊前往完整原由收錄位置）", go: " club-outreach "}, 
+  {q:"有碰過什麼困難？", a:"我們社團與教育部有個合作，要去國小教跆拳道。在我擔任社長那年指派了底下的幹部去做對接，但因種種原因導致溝通不愉快，得知後就換我接手。後續有去了解的校方的需求，並對齊雙方資訊來達成共識，也對幹部說明情況。\n（完整內容為作品中的帶動中小學）", go: " club-outreach "}, 
   {q:"為什麼要錄取我？", a:"大多數人在乎什麼？錢多事少離家近？\n我最在乎的是我是否能夠發揮個人價值，並為其他人帶來益處。而我認為這樣的特質是我與公司雙方皆能夠收穫最多的情境。"}
 
 ];
 /* ========================================================== */
 
-const LABEL = {purpose:"目的",role:"我的角色",action:"行動",hard:"困難與解法",ai:"AI 協作",gain:"成長收穫",reflect:"若重做，我會…"};
-const FIELDS = {
-  "課堂成果":["purpose","role","hard","ai","gain","reflect"],
-  "社團":["role","action","hard","gain","reflect"],
-  "校外發表":["role","hard","ai","gain","reflect"]
+const LABEL = {topic:"主題",award:"榮獲",people:"人數",purpose:"學習目的",role:"我的角色",action:"行動",hard:"困難與解法",ai:"AI 協作",gain:"成長收穫",reflect:"若重做，我會…"};
+/* 閱讀順序（由上到下）：title 即「活動名稱／課程名稱／競賽名稱」 */
+const ORDER = {
+  "社團":["title","role","action","hard","gain","reflect"],
+  "課堂成果":["title","topic","people","purpose","role","hard","ai","gain","reflect"],
+  "校外發表":["title","topic","award","people","role","hard","ai","gain","reflect"]
 };
 const NAME = {"課堂成果":"課程名稱","社團":"活動名稱","校外發表":"競賽名稱"};
 const $ = id => document.getElementById(id);
@@ -392,13 +400,11 @@ function renderDetail(){
   const w = WORKS.find(x=>x.id===S.id); if(!w) return;
   const p = S.page, n = w.pages, src = `works/${w.id}/${p+1}.jpg`;
   $("detail").innerHTML = `
-  <div class="head"><small>${NAME[w.cat]}</small><h3>${esc(w.title)}</h3></div>
-  ${w.topic?`<p style="margin:6px 0 0"><b>主題</b>　${esc(w.topic)}</p>`:""}
-  <div class="meta"><span class="chip">${w.cat}</span>${w.year?`<span class="chip">${esc(w.year)}</span>`:""}${w.kind?`<span class="chip">${esc(w.kind)}</span>`:""}${w.award?`<span class="chip award">榮獲：${esc(w.award)}</span>`:""}
-    ${w.people?`<span class="chip">人數：${esc(w.people)}</span>`:""}
+  <div class="meta"><span class="chip">${w.cat}</span>${w.kind?`<span class="chip">${esc(w.kind)}</span>`:""}${w.year?`<span class="chip">${esc(w.year)}</span>`:""}
     <button class="jump" data-jump>看成果頁面 ↓</button></div>
-  <div class="fields">${FIELDS[w.cat].filter(k=>w[k]).map(k=>
-    `<div class="${k==="gain"?"gain":""}"><h4>${LABEL[k]}</h4><p>${esc(w[k])}</p></div>`).join("")}</div>
+  <div class="read">${ORDER[w.cat].filter(k=>k==="title"||w[k]).map(k=>k==="title"
+    ? `<div class="r-title"><h4>${NAME[w.cat]}</h4><h3>${esc(w.title)}</h3></div>`
+    : `<div class="r-blk${k==="gain"?" gain":""}"><h4>${LABEL[k]}</h4><p>${esc(w[k])}</p></div>`).join("")}</div>
   ${(w.links||[]).length?`<p class="links">${w.links.map(l=>`<a href="${esc(l.href)}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join("")}</p>`:""}
   <div class="vh" id="viewer"><b>成果頁面</b><span>共 ${n} 頁，可用 ← → 翻頁</span></div>
   <div class="viewer">
@@ -412,10 +418,15 @@ function renderDetail(){
     </div>
   </div>`;
 }
+const qaHTML = a => String(a).split("\n").map(line=>{
+  const h=esc(line);
+  if(h.includes("**")) return h.replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>");
+  return h.replace(/^([^：:]{1,16}[：:])/,"<strong>$1</strong>");
+}).join("\n");
 function renderQA(){
   $("qaList").innerHTML = QA.map((x,i)=>
     `<li><button class="qbtn" id="qb${i}" data-q="${i}" aria-expanded="false" aria-controls="qa${i}"><span class="n">Q${i+1}</span>${esc(x.q)}</button>
-     <div class="ans" id="qa${i}" role="region" aria-labelledby="qb${i}"><div><p>${esc(x.a)}</p></div></div></li>`).join("");
+     <div class="ans" id="qa${i}" role="region" aria-labelledby="qb${i}"><div><p>${qaHTML(x.a)}</p></div></div></li>`).join("");
 }
 function toggleQ(i){
   const wasOpen = $("qb"+i).getAttribute("aria-expanded")==="true";
